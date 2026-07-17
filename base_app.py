@@ -18,6 +18,12 @@ def coin_flip():
 if "coin_list" not in st.session_state:
     st.session_state.coin_list = []
 
+if "coin_s_list" not in st.session_state:
+    st.session_state.coin_s_list = []
+
+if "coin_s_temp" not in st.session_state:
+    st.session_state.coin_s_temp = []
+
 st.header("Coin Flip Graph!")
 
 #Creating count dataframe for plotting
@@ -47,7 +53,17 @@ def flip_and_plot():
     if st.button("Flip Coin"):
         new_flip = coin_flip()
         st.session_state.coin_list.append(new_flip)
+        st.session_state.coin_s_temp.append(new_flip)
         st.success(f"Appended {new_flip}!")
+
+    st.success(f"sample temp list {st.session_state.coin_s_temp}!")
+
+    if len(st.session_state.coin_s_temp) == 5:
+        s_mean = np.mean(st.session_state.coin_s_temp)
+        st.session_state.coin_s_list.append(s_mean)
+        st.session_state.coin_s_temp = []
+    st.success(f"sample list {st.session_state.coin_s_list}!")
+
 
     counts = coin_count(st.session_state.coin_list)
 
