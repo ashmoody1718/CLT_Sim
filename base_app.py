@@ -18,6 +18,8 @@ def coin_flip():
 if "coin_list" not in st.session_state:
     st.session_state.coin_list = []
 
+st.header("Coin Flip Graph!")
+
 if st.button("Flip Coin"):
     new_flip = coin_flip()
     st.session_state.coin_list.append(new_flip)
@@ -33,6 +35,3 @@ fig = px.bar(cat_coin_df,
 fig.update_traces(marker_color='firebrick')
 
 st.plotly_chart(fig, use_container_width=True)
-
-
-# st.header("Binary Dataframe!")
