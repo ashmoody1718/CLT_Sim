@@ -20,24 +20,38 @@ if "coin_list" not in st.session_state:
 
 st.header("Coin Flip Graph!")
 
+#Creating count dataframe for plotting
+def coin_count(l):
+    # Coin distribution
+    coin_df = pd.DataFrame(l, columns=["Successes"])
+    counts = coin_df['Successes'].value_counts().reindex([0, 1], fill_value=0).reset_index()
+    counts.columns = ['Successes', 'Count']
+    counts['Successes'] = counts['Successes'].map({0: 'Tails', 1: 'Heads'})
+    return counts
+
+# Plotting count dataframe
+def coin_fig(c):
+    fig = px.bar(c, x='Successes', y='Count')
+    fig.update_traces(marker_color='firebrick')
+    fig.update_layout(
+        width=600,
+        height=400,
+        yaxis_range=[0, 20],
+        uirevision='constant'
+    )
+    return fig
+
 @st.fragment
 def flip_and_plot():
+    # Creating button mechanism
     if st.button("Flip Coin"):
         new_flip = coin_flip()
         st.session_state.coin_list.append(new_flip)
         st.success(f"Appended {new_flip}!")
 
-    coin_df = pd.DataFrame(st.session_state.coin_list, columns=["Successes"])
-    counts = coin_df['Successes'].value_counts().reindex([0, 1], fill_value=0).reset_index()
-    counts.columns = ['Successes', 'Count']
-    counts['Successes'] = counts['Successes'].map({0: 'Tails', 1: 'Heads'})
+    counts = coin_count(st.session_state.coin_list)
 
-    fig = px.bar(counts, x='Successes', y='Count')
-    fig.update_traces(marker_color='firebrick')
-    fig.update_layout(
-        yaxis_range=[0, 20],
-        uirevision='constant'
-    )
-
-    st.plotly_chart(fig, key="coin_chart")
+    # Updating Plots
+    coin_plot = coin_fig(counts)
+    st.plotly_chart(coin_plot, key="coin_chart", use_container_width=False)
 flip_and_plot()
