@@ -32,6 +32,7 @@ fig = px.bar(cat_coin_df,
              labels={"0":"Tails", "1":"Heads"})
 fig.update_traces(marker_color='firebrick')
 
+x = 1
 st.plotly_chart(fig, use_container_width=True)
 
 #
