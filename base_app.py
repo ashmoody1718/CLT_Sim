@@ -34,13 +34,5 @@ fig.update_traces(marker_color='firebrick')
 
 st.plotly_chart(fig, use_container_width=True)
 
-#
-# str_bool_df = int_bool_df.astype('category')
-
-# Making the bernoilli distribution figure
-#
-# fig.show()
-
-
 
 # st.header("Binary Dataframe!")
